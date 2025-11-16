@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier das Palmeiras - Centro de Estudos em Alcochete</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --secondary: #22c55e;
+            --accent: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            --gradient-2: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            opacity: 0.95;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(22, 163, 74, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+            animation: pulse-subtle 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(15, 23, 42, 1);
+            padding: 0.5rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: rgba(21, 128, 61, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 5rem 2rem;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--secondary);
+            transform: translateX(10px);
+        }
+
+        .language-selector {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .language-selector p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-btn:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: var(--secondary);
+            color: var(--dark);
+            border-color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            color: white;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating Elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+            animation: float-random 20s infinite;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            background: white;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            background: white;
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            background: white;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float-random {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Levels Section */
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .level-badge {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .level-badge:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .level-badge h4 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-badge p {
+            color: #64748b;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        .feature-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .feature-content p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Contact Form */
+        .contact-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            background: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        .file-upload-label:hover {
+            background: var(--secondary);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .file-info {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-icon {
+            width: auto;
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .social-icon:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 30px;
+            height: 50px;
+            border: 2px solid white;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .scroll-indicator span::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 10px;
+            background: white;
+            border-radius: 3px;
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .services-grid,
+            .features-grid,
+            .levels-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            animation: slideInDown 0.5s ease;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Atelier das <span>Palmeiras</span></div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#niveis">Níveis</a></li>
+                <li><a href="#vantagens">Vantagens</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#inicio" class="mobile-link">Início</a></li>
+            <li><a href="#servicos" class="mobile-link">Serviços</a></li>
+            <li><a href="#niveis" class="mobile-link">Níveis</a></li>
+            <li><a href="#vantagens" class="mobile-link">Vantagens</a></li>
+            <li><a href="#contato" class="mobile-link">Contato</a></li>
+        </ul>
+        <div class="language-selector">
+            <p>🌐 Idioma / Language</p>
+            <div class="language-buttons">
+                <button class="lang-btn active" data-lang="pt">PT</button>
+                <button class="lang-btn" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero" id="inicio">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        
+        <div class="hero-content">
+            <h1>Atelier das Palmeiras</h1>
+            <p>O espaço que faltava a pensar em si e no seu filho. Centro de Estudos, ATL e Explicações em Alcochete.</p>
+            <div class="cta-buttons">
+                <a href="#contato" class="btn btn-primary">Inscrever-se Agora</a>
+                <a href="#servicos" class="btn btn-secondary">Saber Mais</a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <h2 class="section-title">Nossos Serviços</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">📚</div>
+                <h3>Explicações Individuais</h3>
+                <p>Acompanhamento personalizado e focado nas necessidades específicas de cada aluno, permitindo um progresso acelerado e eficaz.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">👥</div>
+                <h3>Explicações em Grupo</h3>
+                <p>Sessões em pequenos grupos que promovem a aprendizagem colaborativa, partilha de conhecimentos e desenvolvimento social.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3>Centro de Estudos</h3>
+                <p>Espaço dedicado ao estudo e apoio aos trabalhos de casa, com supervisão qualificada e ambiente propício ao sucesso escolar.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">⏱️</div>
+                <h3>ATL - Tempos Livres</h3>
+                <p>Atividades de tempos livres que complementam a educação formal com workshops criativos, desporto e lazer educativo.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✍️</div>
+                <h3>Preparação para Exames</h3>
+                <p>Treino intensivo e estratégias específicas para enfrentar com confiança os momentos de avaliação mais importantes.</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h3>Apoio Especializado</h3>
+                <p>Metodologias adaptadas para alunos com necessidades educativas especiais, garantindo inclusão e sucesso para todos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="niveis">
+        <h2 class="section-title">Níveis de Ensino</h2>
+        <p style="text-align: center; font-size: 1.2rem; color: #64748b; margin-bottom: 2rem;">
+            Acompanhamos alunos desde a pré-escolar até ao 9º ano
+        </p>
+
+        <div class="levels-container">
+            <div class="level-badge">
+                <h4>Pré-Escolar</h4>
+                <p>Preparação para a entrada no ensino básico</p>
+            </div>
+
+            <div class="level-badge">
+                <h4>1º Ciclo</h4>
+                <p>1º ao 4º ano - Bases sólidas</p>
+            </div>
+
+            <div class="level-badge">
+                <h4>2º Ciclo</h4>
+                <p>5º e 6º ano - Transição importante</p>
+            </div>
+
+            <div class="level-badge">
+                <h4>3º Ciclo</h4>
+                <p>7º ao 9º ano - Preparação secundário</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="vantagens">
+        <h2 class="section-title">Porquê Escolher-nos?</h2>
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Professores Qualificados</h4>
+                    <p>Equipa experiente e dedicada com formação superior nas áreas que lecionam</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Métodos Comprovados</h4>
+                    <p>Metodologias pedagógicas eficazes e atualizadas para máximo aproveitamento</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Ambiente Acolhedor</h4>
+                    <p>Instalações modernas e confortáveis que promovem a concentração e bem-estar</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Horários Flexíveis</h4>
+                    <p>Diversos horários disponíveis para se adaptar às necessidades das famílias</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Acompanhamento Parental</h4>
+                    <p>Comunicação regular com encarregados de educação sobre o progresso dos alunos</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h4>Preços Competitivos</h4>
+                    <p>Excelente relação qualidade-preço com planos adaptados ao seu orçamento</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <h2 class="section-title">Entre em Contato</h2>
+        
+        <div class="contact-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo *</label>
+                    <input type="text" id="name" name="name" required placeholder="Seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+351 912 345 678">
+                </div>
+
+                <div class="form-group">
+                    <label for="level">Nível de Ensino</label>
+                    <select id="level" name="level">
+                        <option value="">Selecione o nível</option>
+                        <option value="pre-escolar">Pré-Escolar</option>
+                        <option value="1-ciclo">1º Ciclo (1º-4º ano)</option>
+                        <option value="2-ciclo">2º Ciclo (5º-6º ano)</option>
+                        <option value="3-ciclo">3º Ciclo (7º-9º ano)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Serviço Pretendido</label>
+                    <select id="service" name="service">
+                        <option value="">Selecione o serviço</option>
+                        <option value="individual">Explicações Individuais</option>
+                        <option value="grupo">Explicações em Grupo</option>
+                        <option value="centro-estudos">Centro de Estudos</option>
+                        <option value="atl">ATL</option>
+                        <option value="exames">Preparação para Exames</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" name="message" placeholder="Conte-nos mais sobre as suas necessidades..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="cc">Cartão de Cidadão (opcional)</label>
+                    <div class="file-upload">
+                        <label for="cc" class="file-upload-label">
+                            Clique para anexar o Cartão de Cidadão
+                        </label>
+                        <input type="file" id="cc" name="cc" accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this)">
+                    </div>
+                    <div id="fileName" class="file-name"></div>
+                    <p class="file-info">Formatos aceites: PDF, JPG, PNG (máx. 5MB)</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Pedido de Informação</button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                ✅ Mensagem enviada com sucesso! Entraremos em contato em breve.
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; text-align: center;">
+            <h3 style="margin-bottom: 1rem; color: var(--dark);">📍 Localização</h3>
+            <p style="font-size: 1.2rem; color: #64748b;">Alcochete, Portugal</p>
+            <p style="margin-top: 1rem; color: #64748b;">Contacte-nos para mais informações sobre a nossa localização exata</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">Atelier das Palmeiras</h3>
+            <p style="margin-bottom: 2rem;">O espaço que faltava para o sucesso escolar do seu filho</p>
+            
+            <div class="footer-links">
+                <a href="#inicio">Início</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#niveis">Níveis</a>
+                <a href="#vantagens">Vantagens</a>
+                <a href="#contato">Contato</a>
+            </div>
+
+            <div class="social-icons">
+                <div class="social-icon">Facebook</div>
+                <div class="social-icon">Instagram</div>
+                <div class="social-icon">Email</div>
+            </div>
+
+            <p style="margin-top: 2rem; opacity: 0.8;">© 2025 Atelier das Palmeiras. Todos os direitos reservados.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.6;">Alcochete, Portugal</p>
+            <p style="margin-top: 1rem; opacity: 0.5; font-size: 0.9rem;">Desenvolvido por Simão Januário</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            menuToggle.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close mobile menu when clicking on a link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuToggle.textContent = '☰';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                menuToggle.textContent = '☰';
+            }
+        });
+
+        // Smooth scroll for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission with email
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        // File name display
+        window.updateFileName = function(input) {
+            const fileName = document.getElementById('fileName');
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    fileName.textContent = '❌ Ficheiro muito grande! Máximo 5MB';
+                    fileName.style.color = '#dc2626';
+                    input.value = '';
+                } else {
+                    fileName.textContent = `✅ ${file.name} (${fileSize} MB)`;
+                    fileName.style.color = '#15803d';
+                }
+            } else {
+                fileName.textContent = '';
+            }
+        };
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                level: document.getElementById('level').value,
+                service: document.getElementById('service').value,
+                message: document.getElementById('message').value
+            };
+
+            // Check if file was uploaded
+            const fileInput = document.getElementById('cc');
+            const hasFile = fileInput.files && fileInput.files.length > 0;
+            const fileName = hasFile ? fileInput.files[0].name : 'Não anexado';
+
+            // Create email content
+            const emailSubject = 'Nova Inscrição - Atelier das Palmeiras';
+            const emailBody = `
+Nova inscrição recebida:
+
+Nome: ${formData.name}
+Email: ${formData.email}
+Telefone: ${formData.phone}
+Nível de Ensino: ${formData.level}
+Serviço Pretendido: ${formData.service}
+Cartão de Cidadão: ${fileName}
+Mensagem: ${formData.message}
+
+---
+${hasFile ? 'NOTA: O ficheiro do Cartão de Cidadão precisa ser anexado manualmente ao email.' : ''}
+            `.trim();
+
+            // Encode for mailto
+            const mailtoLink = `mailto:atelierdaspalmeiras@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // If there's a file, show additional instruction
+            if (hasFile) {
+                successMessage.innerHTML = '✅ Email preparado! Por favor, anexe manualmente o ficheiro do Cartão de Cidadão ao email antes de enviar.';
+            } else {
+                successMessage.innerHTML = '✅ Mensagem enviada com sucesso! Entraremos em contato em breve.';
+            }
+
+            // Reset form
+            contactForm.reset();
+            document.getElementById('fileName').textContent = '';
+
+            // Hide success message after 7 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 7000);
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.service-card, .feature-item, .level-badge').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.floating-shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.1);
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add hover sound effect simulation (visual feedback)
+        document.querySelectorAll('.btn, .service-card, .level-badge').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+        });
+
+        // Counter animation for statistics (if you want to add later)
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+
+        // Log page load for analytics
+        console.log('🌴 Atelier das Palmeiras - Website carregado com sucesso!');
+
+        // Language translations
+        const translations = {
+            pt: {
+                nav: ['Início', 'Serviços', 'Níveis', 'Vantagens', 'Contato'],
+                hero_title: 'Atelier das Palmeiras',
+                hero_subtitle: 'O espaço que faltava a pensar em si e no seu filho. Centro de Estudos, ATL e Explicações em Alcochete.',
+                cta_primary: 'Inscrever-se Agora',
+                cta_secondary: 'Saber Mais',
+                services_title: 'Nossos Serviços',
+                service_1_title: 'Explicações Individuais',
+                service_1_desc: 'Acompanhamento personalizado e focado nas necessidades específicas de cada aluno, permitindo um progresso acelerado e eficaz.',
+                service_2_title: 'Explicações em Grupo',
+                service_2_desc: 'Sessões em pequenos grupos que promovem a aprendizagem colaborativa, partilha de conhecimentos e desenvolvimento social.',
+                service_3_title: 'Centro de Estudos',
+                service_3_desc: 'Espaço dedicado ao estudo e apoio aos trabalhos de casa, com supervisão qualificada e ambiente propício ao sucesso escolar.',
+                service_4_title: 'ATL - Tempos Livres',
+                service_4_desc: 'Atividades de tempos livres que complementam a educação formal com workshops criativos, desporto e lazer educativo.',
+                service_5_title: 'Preparação para Exames',
+                service_5_desc: 'Treino intensivo e estratégias específicas para enfrentar com confiança os momentos de avaliação mais importantes.',
+                service_6_title: 'Apoio Especializado',
+                service_6_desc: 'Metodologias adaptadas para alunos com necessidades educativas especiais, garantindo inclusão e sucesso para todos.',
+                levels_title: 'Níveis de Ensino',
+                levels_subtitle: 'Acompanhamos alunos desde a pré-escolar até ao 9º ano',
+                contact_title: 'Entre em Contato',
+                form_name: 'Nome Completo',
+                form_email: 'Email',
+                form_phone: 'Telefone',
+                form_level: 'Nível de Ensino',
+                form_service: 'Serviço Pretendido',
+                form_message: 'Mensagem',
+                form_cc: 'Cartão de Cidadão (opcional)',
+                form_submit: 'Enviar Pedido de Informação'
+            },
+            es: {
+                nav: ['Inicio', 'Servicios', 'Niveles', 'Ventajas', 'Contacto'],
+                hero_title: 'Atelier das Palmeiras',
+                hero_subtitle: 'El espacio que faltaba pensando en usted y en su hijo. Centro de Estudios, ATL y Clases Particulares en Alcochete.',
+                cta_primary: 'Inscribirse Ahora',
+                cta_secondary: 'Saber Más',
+                services_title: 'Nuestros Servicios',
+                service_1_title: 'Clases Individuales',
+                service_1_desc: 'Acompañamiento personalizado y enfocado en las necesidades específicas de cada alumno, permitiendo un progreso acelerado y eficaz.',
+                service_2_title: 'Clases en Grupo',
+                service_2_desc: 'Sesiones en grupos pequeños que promueven el aprendizaje colaborativo, intercambio de conocimientos y desarrollo social.',
+                service_3_title: 'Centro de Estudios',
+                service_3_desc: 'Espacio dedicado al estudio y apoyo con los deberes, con supervisión cualificada y ambiente propicio para el éxito escolar.',
+                service_4_title: 'ATL - Tiempo Libre',
+                service_4_desc: 'Actividades de tiempo libre que complementan la educación formal con talleres creativos, deporte y ocio educativo.',
+                service_5_title: 'Preparación para Exámenes',
+                service_5_desc: 'Entrenamiento intensivo y estrategias específicas para enfrentar con confianza los momentos de evaluación más importantes.',
+                service_6_title: 'Apoyo Especializado',
+                service_6_desc: 'Metodologías adaptadas para alumnos con necesidades educativas especiales, garantizando inclusión y éxito para todos.',
+                levels_title: 'Niveles de Enseñanza',
+                levels_subtitle: 'Acompañamos alumnos desde preescolar hasta 9º grado',
+                contact_title: 'Póngase en Contacto',
+                form_name: 'Nombre Completo',
+                form_email: 'Correo Electrónico',
+                form_phone: 'Teléfono',
+                form_level: 'Nivel de Enseñanza',
+                form_service: 'Servicio Deseado',
+                form_message: 'Mensaje',
+                form_cc: 'Documento de Identidad (opcional)',
+                form_submit: 'Enviar Solicitud de Información'
+            },
+            en: {
+                nav: ['Home', 'Services', 'Levels', 'Advantages', 'Contact'],
+                hero_title: 'Atelier das Palmeiras',
+                hero_subtitle: 'The space you were missing, thinking about you and your child. Study Center, After-School Care and Tutoring in Alcochete.',
+                cta_primary: 'Enroll Now',
+                cta_secondary: 'Learn More',
+                services_title: 'Our Services',
+                service_1_title: 'Individual Tutoring',
+                service_1_desc: 'Personalized support focused on each student\'s specific needs, enabling accelerated and effective progress.',
+                service_2_title: 'Group Classes',
+                service_2_desc: 'Small group sessions that promote collaborative learning, knowledge sharing and social development.',
+                service_3_title: 'Study Center',
+                service_3_desc: 'Dedicated space for studying and homework support, with qualified supervision and an environment conducive to academic success.',
+                service_4_title: 'After-School Care',
+                service_4_desc: 'Leisure activities that complement formal education with creative workshops, sports and educational recreation.',
+                service_5_title: 'Exam Preparation',
+                service_5_desc: 'Intensive training and specific strategies to confidently face the most important assessment moments.',
+                service_6_title: 'Specialized Support',
+                service_6_desc: 'Adapted methodologies for students with special educational needs, ensuring inclusion and success for all.',
+                levels_title: 'Education Levels',
+                levels_subtitle: 'We support students from preschool to 9th grade',
+                contact_title: 'Get in Touch',
+                form_name: 'Full Name',
+                form_email: 'Email',
+                form_phone: 'Phone',
+                form_level: 'Education Level',
+                form_service: 'Desired Service',
+                form_message: 'Message',
+                form_cc: 'ID Card (optional)',
+                form_submit: 'Send Information Request'
+            }
+        };
+
+        // Language switcher
+        const langButtons = document.querySelectorAll('.lang-btn');
+        let currentLang = 'pt';
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                currentLang = lang;
+                
+                // Update active button
+                langButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update page content
+                updateLanguage(lang);
+                
+                // Close mobile menu
+                mobileMenu.classList.remove('active');
+                menuToggle.textContent = '☰';
+            });
+        });
+
+        function updateLanguage(lang) {
+            const t = translations[lang];
+            
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-links a, .mobile-link');
+            navLinks.forEach((link, index) => {
+                if (index < 5) link.textContent = t.nav[index];
+            });
+
+            // Update hero
+            document.querySelector('.hero h1').textContent = t.hero_title;
+            document.querySelector('.hero p').textContent = t.hero_subtitle;
+            document.querySelectorAll('.cta-buttons .btn')[0].textContent = t.cta_primary;
+            document.querySelectorAll('.cta-buttons .btn')[1].textContent = t.cta_secondary;
+
+            // Update services
+            document.querySelector('#servicos .section-title').textContent = t.services_title;
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards[0].querySelector('h3').textContent = t.service_1_title;
+            serviceCards[0].querySelector('p').textContent = t.service_1_desc;
+            serviceCards[1].querySelector('h3').textContent = t.service_2_title;
+            serviceCards[1].querySelector('p').textContent = t.service_2_desc;
+            serviceCards[2].querySelector('h3').textContent = t.service_3_title;
+            serviceCards[2].querySelector('p').textContent = t.service_3_desc;
+            serviceCards[3].querySelector('h3').textContent = t.service_4_title;
+            serviceCards[3].querySelector('p').textContent = t.service_4_desc;
+            serviceCards[4].querySelector('h3').textContent = t.service_5_title;
+            serviceCards[4].querySelector('p').textContent = t.service_5_desc;
+            serviceCards[5].querySelector('h3').textContent = t.service_6_title;
+            serviceCards[5].querySelector('p').textContent = t.service_6_desc;
+
+            // Update levels
+            document.querySelector('#niveis .section-title').textContent = t.levels_title;
+            document.querySelector('#niveis p').textContent = t.levels_subtitle;
+
+            // Update contact
+            document.querySelector('#contato .section-title').textContent = t.contact_title;
+            document.querySelector('label[for="name"]').textContent = t.form_name + ' *';
+            document.querySelector('label[for="email"]').textContent = t.form_email + ' *';
+            document.querySelector('label[for="phone"]').textContent = t.form_phone + ' *';
+            document.querySelector('label[for="level"]').textContent = t.form_level;
+            document.querySelector('label[for="service"]').textContent = t.form_service;
+            document.querySelector('label[for="message"]').textContent = t.form_message;
+            document.querySelector('label[for="cc"]').textContent = t.form_cc;
+            document.querySelector('button[type="submit"]').textContent = t.form_submit;
+        }
+    </script>
+</body>
+</html>
